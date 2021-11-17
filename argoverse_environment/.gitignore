@@ -1,1 +1,3 @@
-argoverse_data/
+argoverse-api/
+.ipynb_checkpoints/
+*.ipynb
