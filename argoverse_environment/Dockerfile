@@ -21,7 +21,7 @@ RUN apt clean && \
 
 # install pytorch and argoverse
 RUN pip3 install --upgrade pip
-RUN pip3 install --no-cache-dir numpy matplotlib scipy tqdm sklearn pandas jupyter jupyterlab notebook jupyterlab_vim jupyter_contrib_nbextensions pyparsing==2.4.7
+RUN pip3 install --no-cache-dir numpy matplotlib scipy tqdm sklearn pandas jupyter jupyterlab notebook jupyterlab_vim jupyter_contrib_nbextensions scikit-image IPython ipdb pyparsing==2.4.7
 RUN pip3 install --no-cache-dir torch==1.8.0+cu111 torchvision==0.9.0+cu111 torchaudio==0.8.0 -f https://download.pytorch.org/whl/torch_stable.html
 RUN pip3 install torch-scatter torch-sparse torch-cluster torch-spline-conv torch-geometric -f https://data.pyg.org/whl/torch-1.8.0+cu111.html
 RUN git clone https://github.com/purewater0901/argoverse-api.git
@@ -34,10 +34,7 @@ RUN jupyter serverextension enable --py jupyterlab
 # vim binding for jupyter lab
 RUN jupyter contrib nbextension install --user
 RUN jupyter nbextensions_configurator enable --user
-#RUN mkdir -p /root/.local/share/jupyter/nbextensions
-#RUN cd /root/.local/share/jupyter/nbextensions
 RUN git clone https://github.com/lambdalisue/jupyter-vim-binding /root/.local/share/jupyter/nbextensions/vim_binding
-#RUN chmod -R 777 vim_binding
 RUN jupyter nbextension enable vim_binding/vim_binding
 WORKDIR /
 

@@ -1,3 +1,4 @@
 argoverse-api/
 .ipynb_checkpoints/
 *.ipynb
+jupyter_notebook_data/

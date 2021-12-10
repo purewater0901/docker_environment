@@ -4,27 +4,24 @@ FROM nvidia/cuda:11.1-devel-ubuntu20.04
 RUN apt update && apt upgrade -y
 
 # install command
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt install -y --no-install-recommends wget sudo vim git curl python3 python3-pip python3-tk build-essential libssl-dev libffi-dev python3-dev
+RUN apt update && DEBIAN_FRONTEND=noninteractive \
+    apt install -y --no-install-recommends \
+    wget sudo vim git curl python3 python3-pip python3-tk ansible gnupg lsb-release build-essential libssl-dev libffi-dev python3-dev
 RUN curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 RUN apt update && apt install -y --no-install-recommends nodejs
 RUN apt upgrade -y
-RUN apt autoremove -y  && \
-    apt clean && \
-    rm -rf \
-     /var/lib/apt/lists/* \
-     /var/cache/apt/* \
-     /usr/local/src/* \
-     /tmp/*
+RUN apt clean && \
+    rm -rf /var/lib/apt/lists/*
 
 ENV LIBRARY_PATH /usr/local/cuda/lib64/stubs
 
-RUN pip3 install --upgrade pip && \
-    pip3 install --no-cache-dir numpy matplotlib tqdm scipy pandas sklearn jupyter jupyterlab notebook jupyterlab_vim pyparsing==2.4.7
+RUN pip3 install --upgrade pip
+RUN pip3 install --no-cache-dir numpy matplotlib scipy tqdm sklearn pandas jupyter jupyterlab notebook jupyterlab_vim jupyter_contrib_nbextensions scikit-image IPython ipdb pyparsing==2.4.7
 RUN pip3 install --no-cache-dir torch==1.8.0+cu111 torchvision==0.9.0+cu111 torchaudio==0.8.0 -f https://download.pytorch.org/whl/torch_stable.html
-RUN pip3 install torch-scatter -f https://data.pyg.org/whl/torch-1.8.0+cu111.html && \
-    pip3 install torch-scatter torch-sparse torch-cluster torch-spline-conv torch-geometric -f https://data.pyg.org/whl/torch-1.8.0+cu111.html && \
-    rm -rf ~/.cache/pip
+RUN pip3 install torch-scatter torch-sparse torch-cluster torch-spline-conv torch-geometric -f https://data.pyg.org/whl/torch-1.8.0+cu111.html
+RUN git clone https://github.com/purewater0901/argoverse-api.git
+RUN pip3 install -e /argoverse-api
+RUN rm -rf ~/.cache/pip /src/
 
 RUN jupyter serverextension enable --py jupyterlab
 
